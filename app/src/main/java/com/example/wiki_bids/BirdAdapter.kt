@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wiki_bids.databinding.ItemBirdBinding
 
 class BirdAdapter(
-    private var birds: List<Bird>,
+    private var allBirds: List<Bird>,
     private val onView: (Bird) -> Unit,
     private val onEdit: (Bird) -> Unit,
     private val onDelete: (Bird) -> Unit
 ) : RecyclerView.Adapter<BirdAdapter.BirdViewHolder>() {
+
+    private var filteredBirds: List<Bird> = allBirds
 
     class BirdViewHolder(val binding: ItemBirdBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,7 +23,7 @@ class BirdAdapter(
     }
 
     override fun onBindViewHolder(holder: BirdViewHolder, position: Int) {
-        val bird = birds[position]
+        val bird = filteredBirds[position]
         holder.binding.tvBirdName.text = bird.name
         holder.binding.tvBirdLocation.text = bird.location
         holder.binding.tvBirdSex.text = bird.sex
@@ -48,10 +50,23 @@ class BirdAdapter(
         }
     }
 
-    override fun getItemCount() = birds.size
+    override fun getItemCount() = filteredBirds.size
 
     fun updateData(newBirds: List<Bird>) {
-        birds = newBirds
+        allBirds = newBirds
+        filter("") // Reset filter when data updates
+    }
+
+    fun filter(query: String) {
+        filteredBirds = if (query.isEmpty()) {
+            allBirds
+        } else {
+            allBirds.filter { 
+                it.name.contains(query, ignoreCase = true) || 
+                it.location.contains(query, ignoreCase = true) ||
+                it.country.contains(query, ignoreCase = true)
+            }
+        }
         notifyDataSetChanged()
     }
 }

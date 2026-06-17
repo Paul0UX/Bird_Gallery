@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nome da Ave"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:layout_marginBottom="8dp"/>
 
         <TextView
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Local visto a ave"
-            android:inputType="text"
+            android:inputType="textLongMessage"
             android:layout_marginTop="8dp"/>
 
         <EditText
@@ -76,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Descrição"
+            android:inputType="textMultiLine"
             android:minLines="3"
             android:gravity="top"/>
 

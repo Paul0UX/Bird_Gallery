@@ -30,7 +30,7 @@ class FirstFragment : Fragment() {
         dbHelper = DatabaseHelper(requireContext())
         
         adapter = BirdAdapter(
-            birds = dbHelper.getAllBirds(),
+            allBirds = dbHelper.getAllBirds(),
             onView = { bird ->
                 val bundle = Bundle().apply {
                     putString("name", bird.name)
@@ -62,6 +62,18 @@ class FirstFragment : Fragment() {
 
         binding.rvBirds.layoutManager = LinearLayoutManager(requireContext())
         binding.rvBirds.adapter = adapter
+
+        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                adapter.filter(query ?: "")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter(newText ?: "")
+                return true
+            }
+        })
     }
 
     override fun onResume() {
